@@ -17,22 +17,24 @@ package netbox
 import (
 	"fmt"
 	"path/filepath"
+	"unicode"
 
+	"github.com/e-breuninger/terraform-provider-netbox/netbox"
+	"github.com/hbjydev/pulumi-netbox/provider/pkg/version"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	shim "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim"
 	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
-	"github.com/hbjydev/pulumi-netbox/provider/pkg/version"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
-	"github.com/e-breuninger/terraform-provider-netbox/netbox"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 )
 
 // all of the token components used below.
 const (
 	// This variable controls the default name of the package in the package
 	// registries for nodejs and python:
-	mainPkg = "netbox"
+	netboxPkg = "netbox"
 	// modules:
-	mainMod = "index" // the netbox module
+	netboxMod = "index" // the netbox module
 )
 
 // preConfigureCallback is called before the providerConfigure function of the underlying provider.
@@ -41,6 +43,32 @@ const (
 // for example `stringValue(vars, "accessKey")`.
 func preConfigureCallback(vars resource.PropertyMap, c shim.ResourceConfig) error {
 	return nil
+}
+
+// netboxMember manufactures a type token for the Scaleway package and the given module and type.
+func netboxMember(mod string, mem string) tokens.ModuleMember {
+	return tokens.ModuleMember(netboxPkg + ":" + mod + ":" + mem)
+}
+
+// netboxType manufactures a type token for the Scaleway package and the given module and type.
+func netboxType(mod string, typ string) tokens.Type {
+	return tokens.Type(netboxMember(mod, typ))
+}
+
+// netboxDataSource manufactures a standard resource token given a module and resource name.
+// It automatically uses the Scaleway package and names the file by simply lower casing the data
+// source's first character.
+func netboxDataSource(mod string, res string) tokens.ModuleMember {
+	fn := string(unicode.ToLower(rune(res[0]))) + res[1:]
+	return netboxMember(mod+"/"+fn, res)
+}
+
+// netboxResource manufactures a standard resource token given a module and resource name.
+// It automatically uses the Scaleway package and names the file by simply lower casing the resource's
+// first character.
+func netboxResource(mod string, res string) tokens.Type {
+	fn := string(unicode.ToLower(rune(res[0]))) + res[1:]
+	return netboxType(mod+"/"+fn, res)
 }
 
 // Provider returns additional overlaid schema and metadata associated with the provider..
@@ -78,39 +106,90 @@ func Provider() tfbridge.ProviderInfo {
 		License:    "Apache-2.0",
 		Homepage:   "https://github.com/hbjydev/pulumi-netbox",
 		Repository: "https://github.com/hbjydev/pulumi-netbox",
+
 		// The GitHub Org for the provider - defaults to `terraform-providers`. Note that this
 		// should match the TF provider module's require directive, not any replace directives.
-		GitHubOrg: "",
+		GitHubOrg: "e-breuninger",
 		Config:    map[string]*tfbridge.SchemaInfo{
-			// Add any required configuration here, or remove the example below if
-			// no additional points are required.
-			// "region": {
-			// 	Type: tfbridge.MakeType("region", "Region"),
-			// 	Default: &tfbridge.DefaultInfo{
-			// 		EnvVars: []string{"AWS_REGION", "AWS_DEFAULT_REGION"},
-			// 	},
-			// },
+            "api_token": {
+                Default: &tfbridge.DefaultInfo{
+                    EnvVars: []string{"NETBOX_API_TOKEN"},
+                },
+            },
+            "server_url": {
+                Default: &tfbridge.DefaultInfo{
+                    EnvVars: []string{"NETBOX_SERVER_URL"},
+                },
+            },
+
+            // TODO: Add the rest: https://registry.terraform.io/providers/e-breuninger/netbox/latest/docs#schema
 		},
 		PreConfigureCallback: preConfigureCallback,
-		Resources:            map[string]*tfbridge.ResourceInfo{
+
+		Resources: map[string]*tfbridge.ResourceInfo{
 			// Map each resource in the Terraform provider to a Pulumi type. Two examples
 			// are below - the single line form is the common case. The multi-line form is
 			// needed only if you wish to override types or other default options.
-			//
-			// "aws_iam_role": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "IamRole")}
-			//
-			// "aws_acm_certificate": {
-			// 	Tok: tfbridge.MakeResource(mainPkg, mainMod, "Certificate"),
-			// 	Fields: map[string]*tfbridge.SchemaInfo{
-			// 		"tags": {Type: tfbridge.MakeType(mainPkg, "Tags")},
-			// 	},
-			// },
+            "netbox_aggregate": {Tok: netboxResource(netboxMod, "Aggregate")},
+            "netbox_available_ip_address": {Tok: netboxResource(netboxMod, "AvailableIpAddress")},
+            "netbox_available_prefix": {Tok: netboxResource(netboxMod, "AvailablePrefix")},
+            "netbox_circuit": {Tok: netboxResource(netboxMod, "Circuit")},
+            "netbox_circuit_provider": {Tok: netboxResource(netboxMod, "CircuitProvider")},
+            "netbox_circuit_termination": {Tok: netboxResource(netboxMod, "CircuitTermination")},
+            "netbox_circuit_type": {Tok: netboxResource(netboxMod, "CircuitType")},
+            "netbox_cluster": {Tok: netboxResource(netboxMod, "Cluster")},
+            "netbox_cluster_group": {Tok: netboxResource(netboxMod, "ClusterGroup")},
+            "netbox_cluster_type": {Tok: netboxResource(netboxMod, "ClusterType")},
+            "netbox_custom_field": {Tok: netboxResource(netboxMod, "CustomField")},
+            "netbox_device": {Tok: netboxResource(netboxMod, "Device")},
+            "netbox_device_role": {Tok: netboxResource(netboxMod, "DeviceRole")},
+            "netbox_device_type": {Tok: netboxResource(netboxMod, "DeviceType")},
+            "netbox_interface": {Tok: netboxResource(netboxMod, "Interface")},
+            "netbox_ip_address": {Tok: netboxResource(netboxMod, "IpAddress")},
+            "netbox_ip_range": {Tok: netboxResource(netboxMod, "IpRange")},
+            "netbox_ipam_role": {Tok: netboxResource(netboxMod, "IpamRole")},
+            "netbox_manufacturer": {Tok: netboxResource(netboxMod, "Manufacturer")},
+            "netbox_platform": {Tok: netboxResource(netboxMod, "Platform")},
+            "netbox_prefix": {Tok: netboxResource(netboxMod, "Prefix")},
+            "netbox_primary_ip": {Tok: netboxResource(netboxMod, "PrimaryIp")},
+            "netbox_region": {Tok: netboxResource(netboxMod, "Region")},
+            "netbox_rir": {Tok: netboxResource(netboxMod, "Rir")},
+            "netbox_service": {Tok: netboxResource(netboxMod, "Service")},
+            "netbox_site": {Tok: netboxResource(netboxMod, "Site")},
+            "netbox_tag": {Tok: netboxResource(netboxMod, "Tag")},
+            "netbox_tenant": {Tok: netboxResource(netboxMod, "Tenant")},
+            "netbox_tenant_group": {Tok: netboxResource(netboxMod, "TenantGroup")},
+            "netbox_token": {Tok: netboxResource(netboxMod, "Token")},
+            "netbox_user": {Tok: netboxResource(netboxMod, "User")},
+            "netbox_virtual_machine": {Tok: netboxResource(netboxMod, "VirtualMachine")},
+            "netbox_vlan": {Tok: netboxResource(netboxMod, "Vlan")},
+            "netbox_vrf": {Tok: netboxResource(netboxMod, "Vrf")},
 		},
+
 		DataSources: map[string]*tfbridge.DataSourceInfo{
 			// Map each resource in the Terraform provider to a Pulumi function. An example
 			// is below.
-			// "aws_ami": {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getAmi")},
+            "netbox_cluster": {Tok: netboxDataSource(netboxMod, "getCluster")},
+            "netbox_cluster_group": {Tok: netboxDataSource(netboxMod, "getClusterGroup")},
+            "netbox_cluster_type": {Tok: netboxDataSource(netboxMod, "getClusterType")},
+            "netbox_device_role": {Tok: netboxDataSource(netboxMod, "getDeviceRole")},
+            "netbox_device_type": {Tok: netboxDataSource(netboxMod, "getDeviceType")},
+            "netbox_interfaces": {Tok: netboxDataSource(netboxMod, "getInterfaces")},
+            "netbox_ip_addresses": {Tok: netboxDataSource(netboxMod, "getIpAddresses")},
+            "netbox_ip_range": {Tok: netboxDataSource(netboxMod, "getIpRange")},
+            "netbox_platform": {Tok: netboxDataSource(netboxMod, "getPlatform")},
+            "netbox_prefix": {Tok: netboxDataSource(netboxMod, "getPrefix")},
+            "netbox_region": {Tok: netboxDataSource(netboxMod, "getRegion")},
+            "netbox_site": {Tok: netboxDataSource(netboxMod, "getSite")},
+            "netbox_tag": {Tok: netboxDataSource(netboxMod, "getTag")},
+            "netbox_tenant": {Tok: netboxDataSource(netboxMod, "getTenant")},
+            "netbox_tenant_group": {Tok: netboxDataSource(netboxMod, "getTenantGroup")},
+            "netbox_tenants": {Tok: netboxDataSource(netboxMod, "getTenants")},
+            "netbox_virtual_machines": {Tok: netboxDataSource(netboxMod, "getVirtualMachines")},
+            "netbox_vlan": {Tok: netboxDataSource(netboxMod, "getVlan")},
+            "netbox_vrf": {Tok: netboxDataSource(netboxMod, "getVrf")},
 		},
+
 		JavaScript: &tfbridge.JavaScriptInfo{
 			// List any npm dependencies and their versions
 			Dependencies: map[string]string{
@@ -133,10 +212,10 @@ func Provider() tfbridge.ProviderInfo {
 		},
 		Golang: &tfbridge.GolangInfo{
 			ImportBasePath: filepath.Join(
-				fmt.Sprintf("github.com/hbjydev/pulumi-%[1]s/sdk/", mainPkg),
+				fmt.Sprintf("github.com/hbjydev/pulumi-%[1]s/sdk/", netboxPkg),
 				tfbridge.GetModuleMajorVersion(version.Version),
 				"go",
-				mainPkg,
+				netboxPkg,
 			),
 			GenerateResourceContainerTypes: true,
 		},
