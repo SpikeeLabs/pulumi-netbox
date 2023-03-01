@@ -1,6 +1,6 @@
-# Foo Resource Provider
+# Netbox Resource Provider
 
-The Foo Resource Provider lets you manage [Foo](http://example.com) resources.
+The Netbox Resource Provider lets you manage [Netbox](https://netbox.dev) resources.
 
 ## Installing
 
@@ -11,13 +11,13 @@ This package is available for several languages/platforms:
 To use from JavaScript or TypeScript in Node.js, install using either `npm`:
 
 ```bash
-npm install @pulumi/foo
+npm install @hbjydev/pulumi-netbox
 ```
 
 or `yarn`:
 
 ```bash
-yarn add @pulumi/foo
+yarn add @hbjydev/pulumi-netbox
 ```
 
 ### Python
@@ -25,7 +25,7 @@ yarn add @pulumi/foo
 To use from Python, install using `pip`:
 
 ```bash
-pip install pulumi_foo
+pip install pulumi_netbox
 ```
 
 ### Go
@@ -33,7 +33,7 @@ pip install pulumi_foo
 To use from Go, use `go get` to grab the latest version of the library:
 
 ```bash
-go get github.com/pulumi/pulumi-foo/sdk/go/...
+go get github.com/hbjydev/pulumi-netbox/sdk/go/...
 ```
 
 ### .NET
@@ -41,16 +41,16 @@ go get github.com/pulumi/pulumi-foo/sdk/go/...
 To use from .NET, install using `dotnet add package`:
 
 ```bash
-dotnet add package Pulumi.Foo
+dotnet add package HBJYDev.Netbox
 ```
 
 ## Configuration
 
 The following configuration points are available for the `foo` provider:
 
-- `foo:apiKey` (environment: `FOO_API_KEY`) - the API key for `foo`
-- `foo:region` (environment: `FOO_REGION`) - the region in which to deploy resources
+- `netbox:apiToken` (environment: `FOO_API_KEY`) - the API key for `foo`
+- `netbox:hostname` (environment: `FOO_REGION`) - the region in which to deploy resources
 
 ## Reference
 
-For detailed reference documentation, please visit [the Pulumi registry](https://www.pulumi.com/registry/packages/foo/api-docs/).
+For detailed reference documentation, please visit [the Pulumi registry](https://www.pulumi.com/registry/packages/netbox/api-docs/).
