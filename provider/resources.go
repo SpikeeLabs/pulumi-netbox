@@ -145,12 +145,26 @@ func Provider() tfbridge.ProviderInfo {
             "netbox_device_role": {Tok: netboxResource(netboxMod, "DeviceRole")},
             "netbox_device_type": {Tok: netboxResource(netboxMod, "DeviceType")},
             "netbox_interface": {Tok: netboxResource(netboxMod, "Interface")},
-            "netbox_ip_address": {Tok: netboxResource(netboxMod, "IpAddress")},
+            "netbox_ip_address": {
+                Tok: netboxResource(netboxMod, "IpAddress"),
+                Fields: map[string]*tfbridge.SchemaInfo{
+                    "ip_address": {
+                        CSharpName: "IpAddressOutput",
+                    },
+                },
+            },
             "netbox_ip_range": {Tok: netboxResource(netboxMod, "IpRange")},
             "netbox_ipam_role": {Tok: netboxResource(netboxMod, "IpamRole")},
             "netbox_manufacturer": {Tok: netboxResource(netboxMod, "Manufacturer")},
             "netbox_platform": {Tok: netboxResource(netboxMod, "Platform")},
-            "netbox_prefix": {Tok: netboxResource(netboxMod, "Prefix")},
+            "netbox_prefix": {
+                Tok: netboxResource(netboxMod, "Prefix"),
+                Fields: map[string]*tfbridge.SchemaInfo{
+                    "prefix": {
+                        CSharpName: "PrefixOutput",
+                    },
+                },
+            },
             "netbox_primary_ip": {Tok: netboxResource(netboxMod, "PrimaryIp")},
             "netbox_region": {Tok: netboxResource(netboxMod, "Region")},
             "netbox_rir": {Tok: netboxResource(netboxMod, "Rir")},
@@ -191,6 +205,7 @@ func Provider() tfbridge.ProviderInfo {
 		},
 
 		JavaScript: &tfbridge.JavaScriptInfo{
+            PackageName: "pulumi-netbox",
 			// List any npm dependencies and their versions
 			Dependencies: map[string]string{
 				"@pulumi/pulumi": "^3.0.0",
@@ -205,6 +220,7 @@ func Provider() tfbridge.ProviderInfo {
 			//Overlay: &tfbridge.OverlayInfo{},
 		},
 		Python: &tfbridge.PythonInfo{
+            PackageName: "pulumi_netbox",
 			// List any Python dependencies and their version ranges
 			Requires: map[string]string{
 				"pulumi": ">=3.0.0,<4.0.0",
@@ -220,6 +236,7 @@ func Provider() tfbridge.ProviderInfo {
 			GenerateResourceContainerTypes: true,
 		},
 		CSharp: &tfbridge.CSharpInfo{
+            RootNamespace: "HBJYDev",
 			PackageReferences: map[string]string{
 				"Pulumi": "3.*",
 			},

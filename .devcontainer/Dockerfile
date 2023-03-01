@@ -3,7 +3,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 
 ARG BUILD_UID=1000
 
-RUN useradd -ms /bin/bash build -u $BUILD_UID
+RUN useradd -mls /bin/bash build -u $BUILD_UID
 
 # Update apt-get and install various needed utilities
 RUN apt-get update && \
