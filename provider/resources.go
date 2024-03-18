@@ -15,12 +15,9 @@
 package netbox
 
 import (
-	"fmt"
-	"path/filepath"
 	"unicode"
 
 	"github.com/e-breuninger/terraform-provider-netbox/netbox"
-	"github.com/SpikeeLabs/pulumi-netbox/provider/pkg/version"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	shim "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim"
 	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
@@ -109,7 +106,7 @@ func Provider() tfbridge.ProviderInfo {
 
 		// The GitHub Org for the provider - defaults to `terraform-providers`. Note that this
 		// should match the TF provider module's require directive, not any replace directives.
-		GitHubOrg: "spikeelabs",
+		GitHubOrg: "e-breuninger",
 		Config:    map[string]*tfbridge.SchemaInfo{
             "api_token": {
                 Default: &tfbridge.DefaultInfo{
