@@ -2,7 +2,7 @@ PROJECT_NAME := netbox Package
 
 SHELL            := /bin/bash
 PACK             := netbox
-ORG              := hbjydev
+ORG              := SpikeeLabs
 PROJECT          := github.com/${ORG}/pulumi-${PACK}
 NODE_MODULE_NAME := @pulumi/${PACK}
 TF_NAME          := ${PACK}

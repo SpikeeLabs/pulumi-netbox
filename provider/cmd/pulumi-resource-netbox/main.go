@@ -20,8 +20,8 @@ import (
 	_ "embed"
 
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
-	netbox "github.com/hbjydev/pulumi-netbox/provider"
-	"github.com/hbjydev/pulumi-netbox/provider/pkg/version"
+	netbox "github.com/SpikeeLabs/pulumi-netbox/provider"
+	"github.com/SpikeeLabs/pulumi-netbox/provider/pkg/version"
 )
 
 //go:embed schema-embed.json

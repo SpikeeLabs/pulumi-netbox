@@ -20,7 +20,7 @@ import (
 	"unicode"
 
 	"github.com/e-breuninger/terraform-provider-netbox/netbox"
-	"github.com/hbjydev/pulumi-netbox/provider/pkg/version"
+	"github.com/SpikeeLabs/pulumi-netbox/provider/pkg/version"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	shim "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim"
 	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
@@ -104,12 +104,12 @@ func Provider() tfbridge.ProviderInfo {
 		// https://www.pulumi.com/docs/guides/pulumi-packages/schema/#package.
 		Keywords:   []string{"pulumi", "netbox", "category/cloud"},
 		License:    "Apache-2.0",
-		Homepage:   "https://github.com/hbjydev/pulumi-netbox",
-		Repository: "https://github.com/hbjydev/pulumi-netbox",
+		Homepage:   "https://github.com/SpikeeLabs/pulumi-netbox",
+		Repository: "https://github.com/SpikeeLabs/pulumi-netbox",
 
 		// The GitHub Org for the provider - defaults to `terraform-providers`. Note that this
 		// should match the TF provider module's require directive, not any replace directives.
-		GitHubOrg: "e-breuninger",
+		GitHubOrg: "spikeelabs",
 		Config:    map[string]*tfbridge.SchemaInfo{
             "api_token": {
                 Default: &tfbridge.DefaultInfo{
@@ -178,6 +178,44 @@ func Provider() tfbridge.ProviderInfo {
             "netbox_virtual_machine": {Tok: netboxResource(netboxMod, "VirtualMachine")},
             "netbox_vlan": {Tok: netboxResource(netboxMod, "Vlan")},
             "netbox_vrf": {Tok: netboxResource(netboxMod, "Vrf")},
+						"netbox_asn": {Tok: netboxResource(netboxMod, "Asn")},    
+						"netbox_cable": {Tok: netboxResource(netboxMod, "Cable")},    
+						"netbox_contact": {Tok: netboxResource(netboxMod, "Contact")},    
+						"netbox_contact_assignment": {Tok: netboxResource(netboxMod, "ContactAssignment")},    
+						"netbox_contact_group": {Tok: netboxResource(netboxMod, "ContactGroup")},    
+						"netbox_contact_role": {Tok: netboxResource(netboxMod, "ContactRole")},    
+						"netbox_custom_field_choice_set": {Tok: netboxResource(netboxMod, "CustomFieldChoiceSet")},    
+						"netbox_device_console_port": {Tok: netboxResource(netboxMod, "DeviceConsolePort")},    
+						"netbox_device_console_server_port": {Tok: netboxResource(netboxMod, "DeviceConsoleServerPort")},    
+						"netbox_device_front_port": {Tok: netboxResource(netboxMod, "DeviceFrontPort")},    
+						"netbox_device_interface": {Tok: netboxResource(netboxMod, "DeviceInterface")},    
+						"netbox_device_module_bay": {Tok: netboxResource(netboxMod, "DeviceModuleBay")},    
+						"netbox_device_power_outlet": {Tok: netboxResource(netboxMod, "DevicePowerOutlet")},    
+						"netbox_device_power_port": {Tok: netboxResource(netboxMod, "DevicePowerPort")},    
+						"netbox_device_primary_ip": {Tok: netboxResource(netboxMod, "DevicePrimaryIp")},    
+						"netbox_device_rear_port": {Tok: netboxResource(netboxMod, "DeviceRearPort")},    
+						"netbox_event_rule": {Tok: netboxResource(netboxMod, "EventRule")},    
+						"netbox_inventory_item": {Tok: netboxResource(netboxMod, "InventoryItem")},    
+						"netbox_inventory_item_role": {Tok: netboxResource(netboxMod, "InventoryItemRole")},    
+						"netbox_location": {Tok: netboxResource(netboxMod, "Location")},    
+						"netbox_module": {Tok: netboxResource(netboxMod, "Module")},    
+						"netbox_module_type": {Tok: netboxResource(netboxMod, "ModuleType")},    
+						"netbox_permission": {Tok: netboxResource(netboxMod, "Permission")},    
+						"netbox_power_feed": {Tok: netboxResource(netboxMod, "PowerFeed")},    
+						"netbox_power_panel": {Tok: netboxResource(netboxMod, "PowerPanel")},    
+						"netbox_rack": {Tok: netboxResource(netboxMod, "Rack")},    
+						"netbox_rack_reservation": {Tok: netboxResource(netboxMod, "RackReservation")},    
+						"netbox_rack_role": {Tok: netboxResource(netboxMod, "RackRole")},    
+						"netbox_route_target": {Tok: netboxResource(netboxMod, "RouteTarget")},    
+						"netbox_site_group": {Tok: netboxResource(netboxMod, "SiteGroup")},    
+						"netbox_virtual_chassis": {Tok: netboxResource(netboxMod, "VirtualChassis")},    
+						"netbox_virtual_disk": {Tok: netboxResource(netboxMod, "VirtualDisk")},    
+						"netbox_vlan_group": {Tok: netboxResource(netboxMod, "VlanGroup")},    
+						"netbox_vpn_tunnel": {Tok: netboxResource(netboxMod, "VpnTunnel")},    
+						"netbox_vpn_tunnel_group": {Tok: netboxResource(netboxMod, "VpnTunnelGroup")},    
+						"netbox_vpn_tunnel_termination": {Tok: netboxResource(netboxMod, "VpnTunnelTermination")},    
+						"netbox_webhook": {Tok: netboxResource(netboxMod, "Webhook")},    
+            
 		},
 
 		DataSources: map[string]*tfbridge.DataSourceInfo{
@@ -202,43 +240,34 @@ func Provider() tfbridge.ProviderInfo {
             "netbox_virtual_machines": {Tok: netboxDataSource(netboxMod, "getVirtualMachines")},
             "netbox_vlan": {Tok: netboxDataSource(netboxMod, "getVlan")},
             "netbox_vrf": {Tok: netboxDataSource(netboxMod, "getVrf")},
+						"netbox_asn": {Tok: netboxDataSource(netboxMod, "getAsn")},     
+						"netbox_asns": {Tok: netboxDataSource(netboxMod, "getAsns")},     
+						"netbox_available_prefix": {Tok: netboxDataSource(netboxMod, "getAvailablePrefix")},     
+						"netbox_contact": {Tok: netboxDataSource(netboxMod, "getContact")},     
+						"netbox_contact_group": {Tok: netboxDataSource(netboxMod, "getContactGroup")},     
+						"netbox_contact_role": {Tok: netboxDataSource(netboxMod, "getContactRole")},     
+						"netbox_device_interfaces": {Tok: netboxDataSource(netboxMod, "getDeviceInterfaces")},     
+						"netbox_devices": {Tok: netboxDataSource(netboxMod, "getDevices")},     
+						"netbox_ipam_role": {Tok: netboxDataSource(netboxMod, "getIpamRole")},     
+						"netbox_location": {Tok: netboxDataSource(netboxMod, "getLocation")},     
+						"netbox_locations": {Tok: netboxDataSource(netboxMod, "getLocations")},     
+						"netbox_prefixes": {Tok: netboxDataSource(netboxMod, "getPrefixes")},     
+						"netbox_rack_role": {Tok: netboxDataSource(netboxMod, "getRackRole")},     
+						"netbox_racks": {Tok: netboxDataSource(netboxMod, "getRacks")},     
+						"netbox_route_target": {Tok: netboxDataSource(netboxMod, "getRouteTarget")},     
+						"netbox_site_group": {Tok: netboxDataSource(netboxMod, "getSiteGroup")},     
+						"netbox_tags": {Tok: netboxDataSource(netboxMod, "getTags")},     
+						"netbox_vlan_group": {Tok: netboxDataSource(netboxMod, "getVlanGroup")},     
+						"netbox_vlans": {Tok: netboxDataSource(netboxMod, "getVlans")},     
+						"netbox_vrfs": {Tok: netboxDataSource(netboxMod, "getVrfs")},     
 		},
 
-		JavaScript: &tfbridge.JavaScriptInfo{
-            PackageName: "pulumi-netbox",
-			// List any npm dependencies and their versions
-			Dependencies: map[string]string{
-				"@pulumi/pulumi": "^3.0.0",
-			},
-			DevDependencies: map[string]string{
-				"@types/node": "^10.0.0", // so we can access strongly typed node definitions.
-				"@types/mime": "^2.0.0",
-			},
-			// See the documentation for tfbridge.OverlayInfo for how to lay out this
-			// section, or refer to the AWS provider. Delete this section if there are
-			// no overlay files.
-			//Overlay: &tfbridge.OverlayInfo{},
-		},
+	
 		Python: &tfbridge.PythonInfo{
             PackageName: "pulumi_netbox",
 			// List any Python dependencies and their version ranges
 			Requires: map[string]string{
 				"pulumi": ">=3.0.0,<4.0.0",
-			},
-		},
-		Golang: &tfbridge.GolangInfo{
-			ImportBasePath: filepath.Join(
-				fmt.Sprintf("github.com/hbjydev/pulumi-%[1]s/sdk/", netboxPkg),
-				tfbridge.GetModuleMajorVersion(version.Version),
-				"go",
-				netboxPkg,
-			),
-			GenerateResourceContainerTypes: true,
-		},
-		CSharp: &tfbridge.CSharpInfo{
-            RootNamespace: "HBJYDev",
-			PackageReferences: map[string]string{
-				"Pulumi": "3.*",
 			},
 		},
 	}

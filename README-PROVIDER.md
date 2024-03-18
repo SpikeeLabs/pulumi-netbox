@@ -11,13 +11,13 @@ This package is available for several languages/platforms:
 To use from JavaScript or TypeScript in Node.js, install using either `npm`:
 
 ```bash
-npm install @hbjydev/pulumi-netbox
+npm install @SpikeeLabs/pulumi-netbox
 ```
 
 or `yarn`:
 
 ```bash
-yarn add @hbjydev/pulumi-netbox
+yarn add @SpikeeLabs/pulumi-netbox
 ```
 
 ### Python
@@ -33,7 +33,7 @@ pip install pulumi_netbox
 To use from Go, use `go get` to grab the latest version of the library:
 
 ```bash
-go get github.com/hbjydev/pulumi-netbox/sdk/go/...
+go get github.com/SpikeeLabs/pulumi-netbox/sdk/go/...
 ```
 
 ### .NET
@@ -41,7 +41,7 @@ go get github.com/hbjydev/pulumi-netbox/sdk/go/...
 To use from .NET, install using `dotnet add package`:
 
 ```bash
-dotnet add package HBJYDev.Netbox
+dotnet add package SpikeeLabs.Netbox
 ```
 
 ## Configuration
