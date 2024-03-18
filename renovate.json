@@ -7,5 +7,6 @@
     "main"
   ],
   "stabilityDays": 4,
-  "rebaseWhen": "behind-base-branch"
+  "rebaseWhen": "behind-base-branch",
+  "forkProcessing": "enabled"
 }

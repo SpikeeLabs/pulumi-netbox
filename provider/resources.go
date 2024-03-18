@@ -261,7 +261,7 @@ func Provider() tfbridge.ProviderInfo {
 
 	
 		Python: &tfbridge.PythonInfo{
-            PackageName: "pulumi_netbox",
+            PackageName: "spk_pulumi_netbox",
 			// List any Python dependencies and their version ranges
 			Requires: map[string]string{
 				"pulumi": ">=3.0.0,<4.0.0",
