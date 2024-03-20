@@ -2,7 +2,7 @@ module github.com/SpikeeLabs/pulumi-netbox/provider
 
 go 1.22
 
-replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20240229143312-4f60ee4e2975
+replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 7ac578ce47fc
 
 require (
 	github.com/e-breuninger/terraform-provider-netbox v1.6.8-0.20240314162220-c05565aeca96
